@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>schort.it – Linkus / Banner</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-zinc-950 text-white min-h-screen flex flex-col">
+
+  <nav class="border-b border-zinc-800 px-6 py-4 flex items-center justify-between">
+    <a href="https://schort.it" class="font-bold text-lg tracking-tight">schort.it</a>
+    <span class="text-xs bg-zinc-800 border border-zinc-700 rounded px-2 py-1 text-zinc-400">Linkus & Banner</span>
+  </nav>
+
+  <main class="flex-1 px-6 py-16 max-w-4xl mx-auto w-full space-y-16">
+
+    <div class="space-y-2">
+      <h1 class="text-3xl font-bold tracking-tight">Linkus & Banner</h1>
+      <p class="text-zinc-400 text-sm">Binde schort.it auf deiner Seite ein. Einfach Code kopieren, fertig.</p>
+    </div>
+
+    <!-- 88x88 -->
+    <section class="space-y-4">
+      <h2 class="text-lg font-semibold text-zinc-200">Button Badge <span class="text-zinc-500 text-sm font-normal">88 × 88 px</span></h2>
+      <div class="flex flex-wrap items-start gap-8">
+        <img src="/static/badge_square.jpg" width="88" height="88" alt="schort.it button badge" class="rounded border border-zinc-700" />
+        <div class="flex-1 min-w-0 space-y-2">
+          <p class="text-xs text-zinc-500 uppercase tracking-wide">HTML</p>
+          <div class="relative">
+            <pre class="bg-zinc-900 border border-zinc-700 rounded-lg p-4 text-xs text-zinc-300 overflow-x-auto whitespace-pre-wrap break-all"><code id="code-88">&lt;a href="https://schort.it" target="_blank"&gt;
+  &lt;img src="https://schort.it/static/badge_square.jpg"
+       width="88" height="88"
+       alt="schort.it – URL Shortener" /&gt;
+&lt;/a&gt;</code></pre>
+            <button onclick="copyCode('code-88', this)" class="absolute top-2 right-2 text-xs text-zinc-400 hover:text-white border border-zinc-600 rounded px-2 py-1 transition-colors">Copy</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 468x60 -->
+    <section class="space-y-4">
+      <h2 class="text-lg font-semibold text-zinc-200">Banner <span class="text-zinc-500 text-sm font-normal">468 × 60 px</span></h2>
+      <div class="space-y-4">
+        <img src="/static/promo_wide.jpg" width="468" height="60" alt="schort.it banner" class="rounded border border-zinc-700 max-w-full" />
+        <div class="relative">
+          <pre class="bg-zinc-900 border border-zinc-700 rounded-lg p-4 text-xs text-zinc-300 overflow-x-auto whitespace-pre-wrap break-all"><code id="code-468">&lt;a href="https://schort.it" target="_blank"&gt;
+  &lt;img src="https://schort.it/static/promo_wide.jpg"
+       width="468" height="60"
+       alt="schort.it – URL Shortener" /&gt;
+&lt;/a&gt;</code></pre>
+          <button onclick="copyCode('code-468', this)" class="absolute top-2 right-2 text-xs text-zinc-400 hover:text-white border border-zinc-600 rounded px-2 py-1 transition-colors">Copy</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 728x90 -->
+    <section class="space-y-4">
+      <h2 class="text-lg font-semibold text-zinc-200">Leaderboard <span class="text-zinc-500 text-sm font-normal">728 × 90 px</span></h2>
+      <div class="space-y-4">
+        <img src="/static/promo_board.jpg" width="728" height="90" alt="schort.it leaderboard" class="rounded border border-zinc-700 max-w-full" />
+        <div class="relative">
+          <pre class="bg-zinc-900 border border-zinc-700 rounded-lg p-4 text-xs text-zinc-300 overflow-x-auto whitespace-pre-wrap break-all"><code id="code-728">&lt;a href="https://schort.it" target="_blank"&gt;
+  &lt;img src="https://schort.it/static/promo_board.jpg"
+       width="728" height="90"
+       alt="schort.it – URL Shortener" /&gt;
+&lt;/a&gt;</code></pre>
+          <button onclick="copyCode('code-728', this)" class="absolute top-2 right-2 text-xs text-zinc-400 hover:text-white border border-zinc-600 rounded px-2 py-1 transition-colors">Copy</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 300x250 -->
+    <section class="space-y-4">
+      <h2 class="text-lg font-semibold text-zinc-200">Medium Rectangle <span class="text-zinc-500 text-sm font-normal">300 × 250 px</span></h2>
+      <div class="flex flex-wrap items-start gap-8">
+        <img src="/static/promo_box.jpg" width="300" height="250" alt="schort.it rectangle banner" class="rounded border border-zinc-700" />
+        <div class="flex-1 min-w-0 space-y-2">
+          <p class="text-xs text-zinc-500 uppercase tracking-wide">HTML</p>
+          <div class="relative">
+            <pre class="bg-zinc-900 border border-zinc-700 rounded-lg p-4 text-xs text-zinc-300 overflow-x-auto whitespace-pre-wrap break-all"><code id="code-300">&lt;a href="https://schort.it" target="_blank"&gt;
+  &lt;img src="https://schort.it/static/promo_box.jpg"
+       width="300" height="250"
+       alt="schort.it – URL Shortener" /&gt;
+&lt;/a&gt;</code></pre>
+            <button onclick="copyCode('code-300', this)" class="absolute top-2 right-2 text-xs text-zinc-400 hover:text-white border border-zinc-600 rounded px-2 py-1 transition-colors">Copy</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="border-t border-zinc-800 px-6 py-4 text-center text-xs text-zinc-600">
+    © 2026 schort.it – made with ❤️ by <a href="https://zer0.de" class="hover:text-zinc-400 transition-colors">zer0.de</a>
+  </footer>
+
+  <script>
+    function copyCode(id, btn) {
+      const text = document.getElementById(id).textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        btn.textContent = 'Copied!';
+        btn.classList.add('text-green-400');
+        setTimeout(() => {
+          btn.textContent = 'Copy';
+          btn.classList.remove('text-green-400');
+        }, 2000);
+      });
+    }
+  </script>
+
+</body>
+</html>

@@ -25,10 +25,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
 models.Base.metadata.create_all(bind=engine)
 
 templates = Jinja2Templates(directory="frontend/templates")
-app.mount("/static", StaticFiles(directory="static"), name="static")
 
 def get_db():
     db = SessionLocal()
@@ -70,6 +71,10 @@ async def read_root(request: Request):
 @app.get("/about", response_class=HTMLResponse)
 async def about(request: Request):
     return templates.TemplateResponse("about.html", {"request": request})
+
+@app.get("/linkus", response_class=HTMLResponse)
+async def about(request: Request):
+    return templates.TemplateResponse("linkus.html", {"request": request})
 
 @app.post("/url")
 def create_url(url: schemas.URLBase, db: Session = Depends(get_db)):
