@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>schort.it – Admin</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-zinc-950 text-white min-h-screen flex flex-col">
+
+  <nav class="border-b border-zinc-800 px-6 py-4 flex items-center justify-between">
+    <a href="https://schort.it" class="font-bold text-lg tracking-tight">schort.it</a>
+    <span class="text-xs bg-zinc-800 border border-zinc-700 rounded px-2 py-1 text-zinc-400">Admin View</span>
+  </nav>
+
+  <main class="flex-1 flex items-center justify-center px-4 py-16">
+    <div class="w-full max-w-2xl space-y-6">
+
+      <div class="space-y-2">
+        <h1 class="text-3xl font-bold tracking-tight">Link Details</h1>
+        <p class="text-zinc-400 text-sm">Verwaltung für deinen Kurzlink.</p>
+      </div>
+
+      <div class="bg-zinc-800 border border-zinc-700 rounded-lg overflow-hidden">
+        <div class="px-5 py-4 border-b border-zinc-700 flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <span id="status-badge"
+                  class="text-xs px-2 py-0.5 rounded-full {% if data.is_active %}bg-green-900 text-green-400 border border-green-800{% else %}bg-zinc-900 text-zinc-400 border border-zinc-700{% endif %}">
+              {% if data.is_active %}Aktiv{% else %}Inaktiv{% endif %}
+            </span>
+            <span class="text-xs text-zinc-500">Created: {{ data.date_readable }}</span>
+          </div>
+          <span class="text-xs text-zinc-500">Clicks: {{ data.clicks }}</span>
+        </div>
+
+        <div class="p-5 space-y-5">
+          <div class="space-y-1">
+            <span class="text-xs text-zinc-500 uppercase tracking-wide">Short URL</span>
+            <div class="flex items-center justify-between gap-3">
+              <a href="{{ data.url }}" target="_blank"
+                 class="text-indigo-400 font-mono text-sm hover:underline truncate">
+                {{ data.url }}
+              </a>
+              <button onclick="copyText('{{ data.url }}')"
+                      class="text-xs text-zinc-400 hover:text-white border border-zinc-600 rounded px-2 py-1 transition-colors">
+                Copy
+              </button>
+            </div>
+          </div>
+
+          <div class="space-y-1">
+            <span class="text-xs text-zinc-500 uppercase tracking-wide">Target URL</span>
+            <p class="text-zinc-300 text-sm break-all">{{ data.target_url }}</p>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div class="space-y-1">
+              <span class="text-xs text-zinc-500 uppercase tracking-wide">Status</span>
+              <p id="status-text" class="text-zinc-300 text-sm">
+                {% if data.is_active %}Active{% else %}Inactive{% endif %}
+              </p>
+            </div>
+            <div class="space-y-1">
+              <span class="text-xs text-zinc-500 uppercase tracking-wide">Admin URL</span>
+              <p class="text-zinc-300 text-sm font-mono break-all">{{ data.admin_url }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="px-5 py-4 border-t border-zinc-700 flex gap-3">
+         <button id="toggle-btn" type="button" onclick="toggleActive()"
+                 class="flex-1 bg-amber-600 hover:bg-amber-500 text-white text-sm font-medium py-2 rounded-lg transition-colors">
+           {% if data.is_active %}⏸ Deactivate{% else %}▶ Activate{% endif %}
+         </button>
+          <button onclick="deleteLink()"
+                  class="flex-1 bg-red-600 hover:bg-red-500 text-white text-sm font-medium py-2 rounded-lg transition-colors">
+            🗑 Delete
+          </button>
+        </div>
+      </div>
+
+      <p id="message" class="hidden text-sm"></p>
+    </div>
+</main>
+
+
+
+  <footer class="border-t border-zinc-800 px-6 py-4 text-center text-xs text-zinc-600">
+    © 2026 schort.it – made with ❤️ by <a href="https://github.com/zer0de-r00tSec/schort.it" class="hover:text-zinc-400 transition-colors">zer0.de</a>
+  </footer>
+
+  <script>
+    const secretKey = "{{ secret_key }}";
+    let isActive = {{ 'true' if data.is_active else 'false' }};
+
+    function copyText(text) {
+      navigator.clipboard.writeText(text);
+    }
+
+    function setMessage(text, ok = true) {
+      const el = document.getElementById('message');
+      el.textContent = text;
+      el.className = ok ? 'text-green-400 text-sm' : 'text-red-400 text-sm';
+      el.classList.remove('hidden');
+    }
+
+    async function deactivateLink() {
+      try {
+        const res = await fetch(`/admin/${secretKey}/deactivate`, { method: 'POST' });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || 'Deactivate failed');
+
+        document.getElementById('status-badge').textContent = 'Inaktiv';
+        document.getElementById('status-badge').className = 'text-xs px-2 py-0.5 rounded-full bg-zinc-900 text-zinc-400 border border-zinc-700';
+        document.getElementById('status-text').textContent = 'Inactive';
+        setMessage(data.detail, true);
+      } catch (e) {
+        setMessage(e.message, false);
+      }
+    }
+
+    async function deleteLink() {
+      if (!confirm('Wirklich löschen? Das entfernt den Datensatz komplett aus der DB.')) return;
+
+      try {
+        const res = await fetch(`/${secretKey}`, { method: 'DELETE' });
+
+        if (!res.ok) {
+          const text = await res.text();
+          throw new Error(text || 'Delete failed');
+        }
+
+        window.location.href = "https://schort.it";
+      } catch (e) {
+        setMessage(e.message, false);
+      }
+    }
+
+    function syncToggleButton() {
+      const btn = document.getElementById('toggle-btn');
+      if (isActive) {
+        btn.textContent = '⏸ Deactivate';
+        btn.className = 'flex-1 bg-amber-600 hover:bg-amber-500 text-white text-sm font-medium py-2 rounded-lg transition-colors';
+      } else {
+        btn.textContent = '▶ Activate';
+        btn.className = 'flex-1 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium py-2 rounded-lg transition-colors';
+      }
+    }
+
+    async function toggleActive() {
+      const endpoint = isActive
+        ? `/${secretKey}/deactivate`
+        : `/${secretKey}/reactivate`;
+
+      const res = await fetch(endpoint, { method: 'POST' });
+      if (!res.ok) {
+        const text = await res.text();
+        setMessage(text || 'Toggle failed', false);
+        return;
+      }
+
+      window.location.href = `/${secretKey}`;
+    }
+  </script>
+</body>
+</html>
